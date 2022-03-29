@@ -66,7 +66,7 @@ namespace '/api/v1' do
   end
 
   get '/roll' do
-    num_dice_int = params['numDice'].to_i
+    num_dice_int = params['num_dice'].to_i
     halt(400, {message:'num_of_dice must be a positive integer'}.to_json) unless num_dice_int.integer? && num_dice_int > 0    
     params.has_key?('difficulty') && params['difficulty'] ? difficulty = params['difficulty'].to_i : difficulty = 6
     halt(400, {message: 'There is a problem with the difficulty you passed in. Make sure it is an integer'}.to_json) unless difficulty > 1
