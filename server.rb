@@ -10,10 +10,22 @@ def roll_dice(numberDice, difficulty)
   return generate_results(all_rolls, difficulty)
 end
 
+def generate_outcome(total_successes)
+  if total_successes > 0
+    outcome = "success"
+  elsif total_successes < 0
+    outcome = "botch"
+  else
+    outcome = "failure"
+  end
+  return outcome
+end
+
 def generate_results(rolls, difficulty)
   ones = rolls.filter { |roll| roll == 1 }
   successes = rolls.filter { |roll| roll >= difficulty }
   total_successes = calculate_successes(successes, ones)
+  outcome = generate_outcome(total_successes)
 
   return {
     difficulty: difficulty,
@@ -22,9 +34,7 @@ def generate_results(rolls, difficulty)
     rolled_successes: successes.size,
     rolled_ones: ones.size,
     total_successes: total_successes,
-    failure: total_successes <= 0,
-    botch: total_successes < 0,
-    success: total_successes > 0
+    outcome: outcome
   }
 end
 
@@ -63,5 +73,3 @@ namespace '/api/v1' do
     roll_dice(num_dice_int, difficulty).to_json
   end
 end
-
-
